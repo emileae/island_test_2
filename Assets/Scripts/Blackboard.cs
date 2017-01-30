@@ -10,7 +10,7 @@ public class Blackboard : MonoBehaviour {
 	public List<List<Waypoint>> platformWaypointScripts = new List<List<Waypoint>>();
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
 		platformWaypoints.Add(waypoints0);
 		platformWaypoints.Add(waypoints1);
