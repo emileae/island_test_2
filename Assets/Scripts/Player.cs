@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
 	public float speed = 0.5f;
 	private Vector3 direction = Vector3.zero;
 
-	public bool facingRight = false;// bool to get player's ehading
+	public bool facingRight = true;// bool to get player's ehading
 
 	public bool movingLeft = false;
 	public bool movingRight = false;
@@ -21,12 +21,19 @@ public class Player : MonoBehaviour {
 	public bool movingUp = false;
 
 	// waypoints
+
+	public GameObject currentWaypoint = null;
+	public GameObject nextWaypoint = null;
+	public GameObject previousWaypoint = null;
+
 	public float waypointTolerance = 1.0f;
 	public bool atWaypoint = false;
 	public int currentPlatform = 0;
 	public List<GameObject> waypoints = new List<GameObject>();
 	public int currentWaypointIndex = 0;
+	public bool inEndSector = false;
 	public int currentSector = 0;
+	private int newSector = 0;
 	private bool reachedEndWaypoint = false;
 	private bool reachedStartWaypoint = false;
 
@@ -49,6 +56,18 @@ public class Player : MonoBehaviour {
 		}
 
 		waypoints = blackboard.platformWaypoints [currentPlatform];
+
+		currentWaypoint = waypoints [currentWaypointIndex];
+
+		if (currentWaypointIndex == 0) {
+			previousWaypoint = null;
+		}else if (currentWaypointIndex == waypoints.Count - 1){
+			nextWaypoint = null;
+		}else{
+			Waypoint waypointScript = blackboard.platformWaypointScripts [currentPlatform] [currentWaypointIndex];
+			previousWaypoint = waypointScript.previousWaypoint;
+			nextWaypoint = waypointScript.nextWaypoint;
+		}
 
 		transform.position = new Vector3 (waypoints[currentWaypointIndex].transform.position.x, transform.position.y, waypoints[currentWaypointIndex].transform.position.z);
 
@@ -87,9 +106,28 @@ public class Player : MonoBehaviour {
 
 //		FindDirection ();
 
-		GetDirection();
+//		GetDirection();
+
+		NavigateWaypoints ();
 
 		controller.Move (direction * inputH * speed + Vector3.up * gravity*Time.deltaTime);
+
+	}
+
+	void NavigateWaypoints(){
+		if (facingRight){ 
+			if (nextWaypoint != null) {
+				direction = (nextWaypoint.transform.position - transform.position).normalized;
+			} else {
+				direction = Vector3.right;
+			}
+		} else {
+			if (previousWaypoint != null) {
+				direction =  (transform.position - previousWaypoint.transform.position).normalized;
+			} else {
+				direction = Vector3.right;
+			}
+		}
 
 	}
 
@@ -98,32 +136,87 @@ public class Player : MonoBehaviour {
 //		Debug.Log ("currentWaypointIndex: " + currentWaypointIndex);
 //		Debug.Log ("currentSector: " + currentSector);
 
+		if (currentSector == 0 || currentSector == waypoints.Count - 2) {
+			inEndSector = true;
+		} else {
+			inEndSector = false;
+		}
+
 		int targetIndex = 0;
 
-		if (movingLeft || movingRight) {
-			if (movingRight) {
+//		if (movingLeft || movingRight) {
+		if (facingRight) {
 				targetIndex = currentSector + 1;
 				direction = (waypoints [targetIndex].transform.position - transform.position).normalized;
-			} else if (movingLeft) {
-				targetIndex = currentWaypointIndex;
+		} else if (!facingRight) {
+				targetIndex = currentSector;
 				direction = (transform.position - waypoints [targetIndex].transform.position).normalized;
-			}
 		}
+//		}
+
+		Debug.Log ("Current Sector: " + currentSector);
+		Debug.Log ("Current Waypoint Index: " + currentWaypointIndex);
+		Debug.Log ("Target Index: " + targetIndex);
+
+		Debug.DrawRay(transform.position, direction, Color.green);
 
 		float distanceFromWaypoint = (transform.position - waypoints [targetIndex].transform.position).sqrMagnitude;
 
-//		Debug.Log ("Distance form Waypoint: " + distanceFromWaypoint);
-
 		if (distanceFromWaypoint < waypointTolerance) {
-			if (facingRight) {
-				Debug.Log ("Reached targetIndex: " + targetIndex);
+			if (targetIndex == 0) {
+				direction = -Vector3.right;
+			} else if (targetIndex == waypoints.Count - 1) {
+				direction = Vector3.right;
 			} else {
-				Debug.Log ("Leaving index: " + targetIndex);
+				Debug.Log ("Reached inner target index, update direction...");
+				currentSector = targetIndex;
+				currentWaypointIndex = targetIndex;
 			}
 		}
-		if (distanceFromWaypoint > waypointTolerance) {
-			Debug.Log("Leaving currentSector/Index: " + currentSector);
-		}
+
+//		Debug.Log ("Distance form Waypoint: " + distanceFromWaypoint);
+
+//		if (distanceFromWaypoint < waypointTolerance) {
+//			if (!inEndSector) {
+//				if (facingRight) {
+////				Debug.Log ("Reached targetIndex: " + targetIndex);
+//					Debug.Log ("Current sector: " + currentSector);
+//					newSector += 1;
+//					if (newSector != currentSector) {
+//						Debug.Log ("Should only see this once.....1.1.1.1.1.1.");
+//						currentSector += 1;
+//						newSector += 1;
+//						currentWaypointIndex += 1;
+//					}
+//				} else {
+////				Debug.Log ("Leaving index: " + targetIndex);
+////				Debug.Log ("New current sector: " + (currentSector - 1));
+//					newSector += 1;
+//					if (newSector != currentSector) {
+//						currentSector += 1;
+//						newSector += 1;
+//						currentWaypointIndex += 1;
+//					}
+//				}
+//			} else {
+//				// in starting sector
+//				if (currentSector == 0) {
+//					if (facingRight) {
+//						currentSector = 0;
+//						newSector = 0;
+//					} else {
+//						currentSector = 0;
+//						newSector = 0;
+//					}
+//				}else if (currentSector == waypoints.Count - 2){
+//					Debug.Log ("In end sector");
+//				}
+//			}
+//		}
+
+//		if (distanceFromWaypoint > waypointTolerance) {
+//			Debug.Log("Leaving currentSector/Index: " + currentSector);
+//		}
 
 	}
 
