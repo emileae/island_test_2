@@ -5,7 +5,7 @@ public class Waypoint : MonoBehaviour {
 
 	public Blackboard blackboard;
 
-	public bool isLadder = false;
+	public bool steps = false;
 
 	public int waypointIndex;
 	public int platformIndex;
@@ -46,6 +46,22 @@ public class Waypoint : MonoBehaviour {
 
 			playerScript.previousWaypoint = previousWaypoint;
 			playerScript.nextWaypoint = nextWaypoint;
+
+			if (steps) {
+				playerScript.onStairs = true;
+			}
+
+		}
+	}
+
+	void OnTriggerExit(Collider col){
+		GameObject go = col.gameObject;
+		if (go.tag == "Player") {
+			Player playerScript = go.GetComponent<Player> ();
+
+			if (steps) {
+				playerScript.onStairs = false;
+			}
 		}
 	}
 

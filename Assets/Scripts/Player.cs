@@ -26,25 +26,16 @@ public class Player : MonoBehaviour {
 	public GameObject nextWaypoint = null;
 	public GameObject previousWaypoint = null;
 
-	public float waypointTolerance = 1.0f;
-	public bool atWaypoint = false;
 	public int currentPlatform = 0;
 	public List<GameObject> waypoints = new List<GameObject>();
-	public int currentWaypointIndex = 0;
-	public bool inEndSector = false;
-	public int currentSector = 0;
-	private int newSector = 0;
-	private bool reachedEndWaypoint = false;
-	private bool reachedStartWaypoint = false;
+	public int startingWaypointIndex = 0;
 
 	// changing 'platforms'
 	private bool changePlatform = false;
 
 	// Ascending / Descending
-	public bool ascending = false;
-	public bool descending = false;
-	public bool canAscend = false;
-	public bool canDescend = false;
+	public bool onStairs = false;
+	public bool climbingStairs = false;
 
 	// Use this for initialization
 	void Start () {
@@ -57,19 +48,19 @@ public class Player : MonoBehaviour {
 
 		waypoints = blackboard.platformWaypoints [currentPlatform];
 
-		currentWaypoint = waypoints [currentWaypointIndex];
+		currentWaypoint = waypoints [startingWaypointIndex];
 
-		if (currentWaypointIndex == 0) {
+		if (startingWaypointIndex == 0) {
 			previousWaypoint = null;
-		}else if (currentWaypointIndex == waypoints.Count - 1){
+		}else if (startingWaypointIndex == waypoints.Count - 1){
 			nextWaypoint = null;
 		}else{
-			Waypoint waypointScript = blackboard.platformWaypointScripts [currentPlatform] [currentWaypointIndex];
+			Waypoint waypointScript = blackboard.platformWaypointScripts [currentPlatform] [startingWaypointIndex];
 			previousWaypoint = waypointScript.previousWaypoint;
 			nextWaypoint = waypointScript.nextWaypoint;
 		}
 
-		transform.position = new Vector3 (waypoints[currentWaypointIndex].transform.position.x, transform.position.y, waypoints[currentWaypointIndex].transform.position.z);
+		transform.position = new Vector3 (waypoints[startingWaypointIndex].transform.position.x, transform.position.y, waypoints[startingWaypointIndex].transform.position.z);
 
 	}
 	
@@ -104,235 +95,45 @@ public class Player : MonoBehaviour {
 			movingUp = false;
 		}
 
-//		FindDirection ();
-
-//		GetDirection();
+		if (onStairs && inputV > 0) {
+			climbingStairs = true;
+			MoveUpPlatform ();
+		}
 
 		NavigateWaypoints ();
 
-		controller.Move (direction * inputH * speed + Vector3.up * gravity*Time.deltaTime);
+		if (climbingStairs) {
+			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime);
+		} else {
+			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
+		}
 
 	}
 
 	void NavigateWaypoints(){
-		if (facingRight){ 
-			if (nextWaypoint != null) {
-				direction = (nextWaypoint.transform.position - transform.position).normalized;
+		if (!climbingStairs) {
+			if (facingRight) { 
+				if (nextWaypoint != null) {
+					direction = (nextWaypoint.transform.position - transform.position).normalized;
+				} else {
+					direction = Vector3.right;
+				}
 			} else {
-				direction = Vector3.right;
-			}
-		} else {
-			if (previousWaypoint != null) {
-				direction =  (transform.position - previousWaypoint.transform.position).normalized;
-			} else {
-				direction = Vector3.right;
+				if (previousWaypoint != null) {
+					direction = (transform.position - previousWaypoint.transform.position).normalized;
+				} else {
+					direction = Vector3.right;
+				}
 			}
 		}
 
 	}
 
-	void GetDirection ()
-	{
-//		Debug.Log ("currentWaypointIndex: " + currentWaypointIndex);
-//		Debug.Log ("currentSector: " + currentSector);
-
-		if (currentSector == 0 || currentSector == waypoints.Count - 2) {
-			inEndSector = true;
-		} else {
-			inEndSector = false;
-		}
-
-		int targetIndex = 0;
-
-//		if (movingLeft || movingRight) {
-		if (facingRight) {
-				targetIndex = currentSector + 1;
-				direction = (waypoints [targetIndex].transform.position - transform.position).normalized;
-		} else if (!facingRight) {
-				targetIndex = currentSector;
-				direction = (transform.position - waypoints [targetIndex].transform.position).normalized;
-		}
-//		}
-
-		Debug.Log ("Current Sector: " + currentSector);
-		Debug.Log ("Current Waypoint Index: " + currentWaypointIndex);
-		Debug.Log ("Target Index: " + targetIndex);
-
-		Debug.DrawRay(transform.position, direction, Color.green);
-
-		float distanceFromWaypoint = (transform.position - waypoints [targetIndex].transform.position).sqrMagnitude;
-
-		if (distanceFromWaypoint < waypointTolerance) {
-			if (targetIndex == 0) {
-				direction = -Vector3.right;
-			} else if (targetIndex == waypoints.Count - 1) {
-				direction = Vector3.right;
-			} else {
-				Debug.Log ("Reached inner target index, update direction...");
-				currentSector = targetIndex;
-				currentWaypointIndex = targetIndex;
-			}
-		}
-
-//		Debug.Log ("Distance form Waypoint: " + distanceFromWaypoint);
-
-//		if (distanceFromWaypoint < waypointTolerance) {
-//			if (!inEndSector) {
-//				if (facingRight) {
-////				Debug.Log ("Reached targetIndex: " + targetIndex);
-//					Debug.Log ("Current sector: " + currentSector);
-//					newSector += 1;
-//					if (newSector != currentSector) {
-//						Debug.Log ("Should only see this once.....1.1.1.1.1.1.");
-//						currentSector += 1;
-//						newSector += 1;
-//						currentWaypointIndex += 1;
-//					}
-//				} else {
-////				Debug.Log ("Leaving index: " + targetIndex);
-////				Debug.Log ("New current sector: " + (currentSector - 1));
-//					newSector += 1;
-//					if (newSector != currentSector) {
-//						currentSector += 1;
-//						newSector += 1;
-//						currentWaypointIndex += 1;
-//					}
-//				}
-//			} else {
-//				// in starting sector
-//				if (currentSector == 0) {
-//					if (facingRight) {
-//						currentSector = 0;
-//						newSector = 0;
-//					} else {
-//						currentSector = 0;
-//						newSector = 0;
-//					}
-//				}else if (currentSector == waypoints.Count - 2){
-//					Debug.Log ("In end sector");
-//				}
-//			}
-//		}
-
-//		if (distanceFromWaypoint > waypointTolerance) {
-//			Debug.Log("Leaving currentSector/Index: " + currentSector);
-//		}
-
+	void MoveUpPlatform(){
+		onStairs = false;
+		currentPlatform += 1;
+		nextWaypoint = blackboard.platformWaypoints [currentPlatform] [0];
+		direction = (nextWaypoint.transform.position - transform.position).normalized;
 	}
-
-	void FindDirection ()
-	{
-
-		// direction irrespective of whether player is moving
-
-		if (currentWaypointIndex <= waypoints.Count - 1) {
-			Vector3 staticDirection = waypoints [currentWaypointIndex + 1].transform.position - transform.position;
-			if (staticDirection.sqrMagnitude <= waypointTolerance) {
-				Debug.Log ("At a waypoint");
-			} else {
-				Debug.Log ("Not at a waypoint");
-			}
-		}
-
-		if (movingRight && currentWaypointIndex >= 0 && currentWaypointIndex < waypoints.Count-1) {
-			Vector3 unNormalizedDirection = waypoints [currentWaypointIndex + 1].transform.position - transform.position;
-			if (reachedStartWaypoint) {
-				unNormalizedDirection = waypoints [currentWaypointIndex].transform.position - transform.position;
-			}
-
-			// Entering the waypoint
-			if (unNormalizedDirection.sqrMagnitude <= waypointTolerance) {
-
-				if (currentWaypointIndex < waypoints.Count - 1 && !reachedStartWaypoint) {
-					currentWaypointIndex += 1;
-				}
-
-				if (currentWaypointIndex == 0 && reachedStartWaypoint) {
-					reachedStartWaypoint = false;
-				}
-					
-				if (currentWaypointIndex == waypoints.Count - 1) {
-					reachedEndWaypoint = true;
-				}
-
-			}
-
-			if (unNormalizedDirection.sqrMagnitude < waypointTolerance) {
-//				Debug.Log ("moving right and at waypoint....." + currentWaypointIndex);
-				atWaypoint = true;
-				if (blackboard.platformWaypointScripts [currentPlatform] [currentWaypointIndex].isLadder) {
-					canAscend = true;
-				}
-			}
-
-			direction = unNormalizedDirection.normalized;
-
-			// Leaving the waypoint
-			if (unNormalizedDirection.sqrMagnitude > waypointTolerance) {
-				atWaypoint = false;
-				if (canAscend) {
-//					Debug.Log ("Can no longer climb");
-					canAscend = false;
-				}
-			}
-
-		}else if (movingLeft && currentWaypointIndex >= 0 && currentWaypointIndex <= waypoints.Count-1){
-			Vector3 unNormalizedDirection =  transform.position - waypoints[currentWaypointIndex].transform.position;
-
-			if (unNormalizedDirection.sqrMagnitude < waypointTolerance) {
-				atWaypoint = true;
-				if (blackboard.platformWaypointScripts [currentPlatform] [currentWaypointIndex].isLadder) {
-//					Debug.Log ("Can climb from here..." + currentWaypointIndex);
-					canAscend = true;
-				}
-			}
-
-			// Entering the waypoint
-			if (unNormalizedDirection.sqrMagnitude <= waypointTolerance) {
-				if (currentWaypointIndex == 0) {
-					reachedStartWaypoint = true;
-				}
-
-				if (currentWaypointIndex > 0) {
-					currentWaypointIndex -= 1;
-				}
-			}
-			if (reachedEndWaypoint) {
-				reachedEndWaypoint = false;
-			}
-			direction = unNormalizedDirection.normalized;
-
-			// Leaving the waypoint
-			if (unNormalizedDirection.sqrMagnitude > waypointTolerance) {
-				atWaypoint = false;
-				if (canAscend) {
-//					Debug.Log ("Can no longer climb");
-					canAscend = false;
-				}
-			}
-
-		}
-
-		if (reachedEndWaypoint) {
-//			Debug.Log ("Reached End waypoint");
-			direction = Vector3.right;
-		}
-		if (reachedStartWaypoint) {
-//			Debug.Log ("Reached Start waypoint");
-			// this vector is adjusted for direction (made negative) by 'inputH'
-			direction = Vector3.right;
-		}
-
-	}
-
-//	void CheckWaypoint(){
-//		Debug.Log ("Check Waypoint: " + currentWaypointIndex + " on platform: " + currentPlatform);
-//		if (blackboard.platformWaypointScripts [currentPlatform] [currentWaypointIndex].isLadder) {
-//			Debug.Log ("Can climb from here..." + currentWaypointIndex);
-////			canAscend = true;
-//		}
-//	}
-
-
 
 }
