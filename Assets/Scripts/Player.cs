@@ -65,7 +65,8 @@ public class Player : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 
 		float inputH = Input.GetAxisRaw ("Horizontal");
 		float inputV = Input.GetAxisRaw ("Vertical");
@@ -74,11 +75,11 @@ public class Player : MonoBehaviour {
 			movingLeft = false;
 			movingRight = true;
 			facingRight = true;
-		}else if (inputH < 0){
+		} else if (inputH < 0) {
 			movingLeft = true;
 			movingRight = false;
 			facingRight = false;
-		}else{
+		} else {
 			movingLeft = false;
 			movingRight = false;
 			// no facingRight here since it has to keep its current heading
@@ -87,10 +88,10 @@ public class Player : MonoBehaviour {
 		if (inputV > 0) {
 			movingDown = false;
 			movingUp = true;
-		}else if (inputV < 0){
+		} else if (inputV < 0) {
 			movingDown = true;
 			movingUp = false;
-		}else{
+		} else {
 			movingDown = false;
 			movingUp = false;
 		}
@@ -99,31 +100,34 @@ public class Player : MonoBehaviour {
 			climbingStairs = true;
 			MoveUpPlatform ();
 		}
+//		if (onStairs && inputV < 0) {
+//			climbingStairs = true;
+//			MoveDownPlatform ();
+//		}
 
 		NavigateWaypoints ();
 
 		if (climbingStairs) {
-			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime);
+			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime + Vector3.up * Time.deltaTime);
 		} else {
 			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
 		}
 
 	}
 
-	void NavigateWaypoints(){
-		if (!climbingStairs) {
-			if (facingRight) { 
-				if (nextWaypoint != null) {
-					direction = (nextWaypoint.transform.position - transform.position).normalized;
-				} else {
-					direction = Vector3.right;
-				}
+	void NavigateWaypoints ()
+	{
+		if (facingRight) {
+			if (nextWaypoint != null) {
+				direction = (nextWaypoint.transform.position - transform.position).normalized;
 			} else {
-				if (previousWaypoint != null) {
-					direction = (transform.position - previousWaypoint.transform.position).normalized;
-				} else {
-					direction = Vector3.right;
-				}
+				direction = Vector3.right;
+			}
+		} else {
+			if (previousWaypoint != null) {
+				direction = (transform.position - previousWaypoint.transform.position).normalized;
+			} else {
+				direction = Vector3.right;
 			}
 		}
 
