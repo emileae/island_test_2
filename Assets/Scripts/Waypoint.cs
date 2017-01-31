@@ -9,13 +9,20 @@ public class Waypoint : MonoBehaviour {
 
 	public int waypointIndex;
 	public int platformIndex;
+
+	// horizontal previous and next
 	public GameObject previousWaypoint;
 	public GameObject nextWaypoint;
 
+	// vertical previous and next
+	public GameObject previousVerticalWaypoint;
+	public GameObject nextVerticalWaypoint;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		if (blackboard == null) {
-			blackboard = GameObject.Find ("Blackboard").GetComponent<Blackboard>();
+			blackboard = GameObject.Find ("Blackboard").GetComponent<Blackboard> ();
 		}
 
 		waypointIndex = blackboard.platformWaypoints [platformIndex].IndexOf (gameObject);
@@ -23,12 +30,22 @@ public class Waypoint : MonoBehaviour {
 		int prevIndex = waypointIndex - 1;
 		int nextIndex = waypointIndex + 1;
 
-		if (prevIndex >= 0) {
-			previousWaypoint = blackboard.platformWaypoints [platformIndex] [prevIndex];
-		}
+		if (steps) {
+			if (prevIndex >= 0) {
+				previousVerticalWaypoint = blackboard.platformWaypoints [platformIndex] [prevIndex];
+			}
 
-		if (nextIndex <= blackboard.platformWaypoints [platformIndex].Count - 1) {
-			nextWaypoint = blackboard.platformWaypoints [platformIndex] [nextIndex];
+			if (nextIndex <= blackboard.platformWaypoints [platformIndex].Count - 1) {
+				nextVerticalWaypoint = blackboard.platformWaypoints [platformIndex] [nextIndex];
+			}
+		} else {
+			if (prevIndex >= 0) {
+				previousWaypoint = blackboard.platformWaypoints [platformIndex] [prevIndex];
+			}
+
+			if (nextIndex <= blackboard.platformWaypoints [platformIndex].Count - 1) {
+				nextWaypoint = blackboard.platformWaypoints [platformIndex] [nextIndex];
+			}
 		}
 
 	}
@@ -38,7 +55,8 @@ public class Waypoint : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter(Collider col){
+	void OnTriggerEnter (Collider col)
+	{
 		GameObject go = col.gameObject;
 		if (go.tag == "Player") {
 			Player playerScript = go.GetComponent<Player> ();
@@ -47,8 +65,13 @@ public class Waypoint : MonoBehaviour {
 			playerScript.previousWaypoint = previousWaypoint;
 			playerScript.nextWaypoint = nextWaypoint;
 
+			playerScript.previousVerticalWaypoint = previousVerticalWaypoint;
+			playerScript.nextVerticalWaypoint = nextVerticalWaypoint;
+
 			if (steps) {
 				playerScript.onStairs = true;
+			} else {
+				playerScript.onStairs = false;
 			}
 
 		}
@@ -56,13 +79,9 @@ public class Waypoint : MonoBehaviour {
 
 	void OnTriggerExit(Collider col){
 		GameObject go = col.gameObject;
-		if (go.tag == "Player") {
-			Player playerScript = go.GetComponent<Player> ();
-
-			if (steps) {
-				playerScript.onStairs = false;
-			}
-		}
+//		if (go.tag == "Player") {
+//			Player playerScript = go.GetComponent<Player> ();
+//		}
 	}
 
 }

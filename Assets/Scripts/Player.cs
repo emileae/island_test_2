@@ -23,8 +23,12 @@ public class Player : MonoBehaviour {
 	// waypoints
 
 	public GameObject currentWaypoint = null;
+	// horizontal waypoints
 	public GameObject nextWaypoint = null;
 	public GameObject previousWaypoint = null;
+	// vertical waypoints
+	public GameObject previousVerticalWaypoint = null;
+	public GameObject nextVerticalWaypoint = null;
 
 	public int currentPlatform = 0;
 	public List<GameObject> waypoints = new List<GameObject>();
@@ -98,27 +102,39 @@ public class Player : MonoBehaviour {
 			movingUp = false;
 		}
 
-		if (onStairs && inputV > 0) {
-			climbingStairs = true;
-			MoveUpPlatform ();
+		if (climbingStairs && inputH != 0) {
+			inputH = 0;
 		}
-//		if (onStairs && inputV < 0) {
-//			climbingStairs = true;
-//			MoveDownPlatform ();
-//		}
 
-		NavigateWaypoints ();
+		if (!climbingStairs && inputV != 0) {
+			if (!nextVerticalWaypoint && !previousVerticalWaypoint) {
+				inputV = 0;
+			}
+		}
 
-		if (climbingStairs) {
-			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime + Vector3.up * Time.deltaTime);
-		} else {
+		
+
+		if (inputH != 0) {
+			NavigateWaypoints ();
 			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
+		} else if (inputV != 0) {
+			NavigateVerticalWaypoints ();
+			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime);
+		} else {
+			controller.Move (Vector3.up * gravity * Time.deltaTime);
 		}
+
+//		NavigateWaypoints ();
+
+//		if (climbingStairs) {
+//			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime + Vector3.up * Time.deltaTime);
+//		} else {
+//			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
+//		}
 
 	}
 
-	void NavigateWaypoints ()
-	{
+	void NavigateWaypoints (){
 		if (facingRight) {
 			if (nextWaypoint != null) {
 				direction = (nextWaypoint.transform.position - transform.position).normalized;
@@ -135,11 +151,59 @@ public class Player : MonoBehaviour {
 
 	}
 
+	void NavigateVerticalWaypoints(){
+		if (facingRight) {
+			if (nextVerticalWaypoint != null) {
+				direction = (nextVerticalWaypoint.transform.position - transform.position).normalized;
+			} else {
+				direction = Vector3.right;
+			}
+		} else {
+			if (previousVerticalWaypoint != null) {
+				direction = (transform.position - previousVerticalWaypoint.transform.position).normalized;
+			} else {
+				direction = Vector3.right;
+			}
+		}
+	}
+
 	void MoveUpPlatform(){
 		onStairs = false;
 		currentPlatform += 1;
 		nextWaypoint = blackboard.platformWaypoints [currentPlatform] [0];
 		direction = (nextWaypoint.transform.position - transform.position).normalized;
+	}
+
+	void MoveDownPlatform(){
+		currentPlatform -= 1;
+		SetWaypoints(currentPlatform);//blackboard.platformWaypoints [currentPlatform] [0];
+		direction = (nextWaypoint.transform.position - transform.position).normalized;
+		Debug.Log("Should be on lower platform");
+		climbingStairs = false;
+	}
+
+	// find the closest waypoint on a given platform that is an entry to steps
+	void SetWaypoints (int platformIndex)
+	{
+		List<GameObject> potentialWaypoints = new List<GameObject> ();
+		for (int i = 0; i < blackboard.platformWaypointScripts [platformIndex].Count; i++) {
+			if (blackboard.platformWaypointScripts [platformIndex] [i].steps) {
+				potentialWaypoints.Add (blackboard.platformWaypoints [platformIndex] [i]);
+			}
+		}
+
+		float smallestDistance = Mathf.Infinity;
+		int smallestDistanceIndex = 0;
+		for (int j = 0; j < potentialWaypoints.Count; j++) {
+			float distance = (transform.position - potentialWaypoints [j].transform.position).sqrMagnitude;
+			if (distance < smallestDistance) {
+				smallestDistance = distance;
+				smallestDistanceIndex = j;
+			}
+		}
+
+		nextWaypoint = potentialWaypoints[smallestDistanceIndex];
+
 	}
 
 }
