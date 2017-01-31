@@ -146,18 +146,22 @@ public class Player : MonoBehaviour {
 
 	void NavigateWaypoints (){
 		if (facingRight) {
-			if (nextWaypoint != null) {
+			if (!lastWaypoint) {
 				direction = (nextWaypoint.transform.position - transform.position).normalized;
 			} else {
+//				previousWaypoint = currentWaypoint;
 				direction = Vector3.right;
 			}
 		} else {
-			if (previousWaypoint != null) {
+			if (!firstWaypoint) {
 				direction = (transform.position - previousWaypoint.transform.position).normalized;
 			} else {
+//				nextWaypoint = currentWaypoint;
 				direction = Vector3.right;
 			}
 		}
+
+		Debug.Log ("Direction.... " + direction);
 
 	}
 

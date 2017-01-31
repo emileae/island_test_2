@@ -77,8 +77,20 @@ public class Waypoint : MonoBehaviour {
 
 			playerScript.currentWaypoint = gameObject;
 
-			playerScript.previousWaypoint = previousWaypoint;
-			playerScript.nextWaypoint = nextWaypoint;
+			if (firstWaypoint) {
+				playerScript.previousWaypoint = null;
+			} else {
+				playerScript.previousWaypoint = previousWaypoint;
+			}
+
+			if (lastWaypoint) {
+				playerScript.nextWaypoint = null;
+			} else {
+				playerScript.nextWaypoint = nextWaypoint;
+			}
+
+//			playerScript.previousWaypoint = previousWaypoint;
+//			playerScript.nextWaypoint = nextWaypoint;
 
 			playerScript.previousVerticalWaypoint = previousVerticalWaypoint;
 			playerScript.nextVerticalWaypoint = nextVerticalWaypoint;
@@ -94,9 +106,20 @@ public class Waypoint : MonoBehaviour {
 
 	void OnTriggerExit(Collider col){
 		GameObject go = col.gameObject;
-//		if (go.tag == "Player") {
-//			Player playerScript = go.GetComponent<Player> ();
-//		}
+		if (go.tag == "Player") {
+			Player playerScript = go.GetComponent<Player> ();
+//			if (firstWaypoint) {
+//				playerScript.firstWaypoint = false;
+//			}
+//			if (lastWaypoint) {
+//				playerScript.lastWaypoint = false;
+//			}
+			if (playerScript.facingRight) {
+				playerScript.previousWaypoint = gameObject;
+			} else {
+				playerScript.nextWaypoint = gameObject;
+			}
+		}
 	}
 
 }
