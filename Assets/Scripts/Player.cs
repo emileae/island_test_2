@@ -21,7 +21,8 @@ public class Player : MonoBehaviour {
 	public bool movingUp = false;
 
 	// waypoints
-
+	public bool firstWaypoint = false;
+	public bool lastWaypoint = false;
 	public GameObject currentWaypoint = null;
 	// horizontal waypoints
 	public GameObject nextWaypoint = null;
@@ -102,12 +103,21 @@ public class Player : MonoBehaviour {
 			movingUp = false;
 		}
 
-		if (climbingStairs && inputH != 0) {
+		if (onStairs && inputH != 0) {
 			inputH = 0;
 		}
 
-		if (!climbingStairs && inputV != 0) {
+		if (!onStairs && inputV != 0) {
 			if (!nextVerticalWaypoint && !previousVerticalWaypoint) {
+				inputV = 0;
+			}
+			// for cases of horizontal waypoint at top or bottom of stairs
+			// bottom of stairs
+			if (nextVerticalWaypoint && inputV < 0) {
+				inputV = 0;
+			}
+			// top of stairs
+			if (previousVerticalWaypoint && inputV > 0) {
 				inputV = 0;
 			}
 		}

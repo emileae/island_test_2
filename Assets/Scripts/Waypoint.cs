@@ -7,6 +7,9 @@ public class Waypoint : MonoBehaviour {
 
 	public bool steps = false;
 
+	public bool firstWaypoint = false;
+	public bool lastWaypoint = false;
+
 	public int waypointIndex;
 	public int platformIndex;
 
@@ -29,6 +32,14 @@ public class Waypoint : MonoBehaviour {
 
 		int prevIndex = waypointIndex - 1;
 		int nextIndex = waypointIndex + 1;
+
+		if (waypointIndex == 0) {
+			firstWaypoint = true;
+			lastWaypoint = false;
+		}else if (waypointIndex == blackboard.platformWaypoints [platformIndex].Count - 1) {
+			firstWaypoint = false;
+			lastWaypoint = true;
+		}
 
 		if (steps) {
 			if (prevIndex >= 0) {
@@ -60,6 +71,10 @@ public class Waypoint : MonoBehaviour {
 		GameObject go = col.gameObject;
 		if (go.tag == "Player") {
 			Player playerScript = go.GetComponent<Player> ();
+
+			playerScript.firstWaypoint = firstWaypoint;
+			playerScript.lastWaypoint = lastWaypoint;
+
 			playerScript.currentWaypoint = gameObject;
 
 			playerScript.previousWaypoint = previousWaypoint;
