@@ -88,9 +88,11 @@ public class Player : MonoBehaviour {
 		if (inputV > 0) {
 			movingDown = false;
 			movingUp = true;
+			facingRight = true;
 		} else if (inputV < 0) {
 			movingDown = true;
 			movingUp = false;
+			facingRight = false;
 		} else {
 			movingDown = false;
 			movingUp = false;
