@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{1333BC3A-FDA1-D021-78B5-2FAD6CAC644B}</ProjectGuid>
+    <ProjectGuid>{02D1F1B4-51FB-AEA9-D798-29960B6B4FE4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,19 +45,54 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\SWS\Examples\Scripts\CameraInputDemo.cs" />
+     <Compile Include="Assets\SWS\Examples\Scripts\EventCollisionTrigger.cs" />
+     <Compile Include="Assets\SWS\Examples\Scripts\EventReceiver.cs" />
+     <Compile Include="Assets\SWS\Examples\Scripts\PathInputDemo.cs" />
+     <Compile Include="Assets\SWS\Examples\Scripts\RapidInputDemo.cs" />
+     <Compile Include="Assets\SWS\Examples\Scripts\RotationHelper.cs" />
+     <Compile Include="Assets\SWS\Examples\Scripts\RuntimeDemo.cs" />
+     <Compile Include="Assets\SWS\Examples\Scripts\ShowcaseGUI.cs" />
+     <Compile Include="Assets\SWS\Scripts\Helper\MoveAnimator.cs" />
+     <Compile Include="Assets\SWS\Scripts\Helper\PathIndicator.cs" />
+     <Compile Include="Assets\SWS\Scripts\Helper\PathRenderer.cs" />
+     <Compile Include="Assets\SWS\Scripts\Manager\BezierPathManager.cs" />
+     <Compile Include="Assets\SWS\Scripts\Manager\PathManager.cs" />
+     <Compile Include="Assets\SWS\Scripts\Manager\WaypointManager.cs" />
+     <Compile Include="Assets\SWS\Scripts\Movement\navMove.cs" />
+     <Compile Include="Assets\SWS\Scripts\Movement\splineMove.cs" />
      <Compile Include="Assets\Scripts\Blackboard.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Sea.cs" />
      <Compile Include="Assets\Scripts\Waypoint.cs" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
+     <None Include="Assets\SWS\README.txt" />
+     <None Include="Assets\SWS\Examples\Assets\Shaders\DiffuseReflectiveShader.shader" />
+     <None Include="Assets\SWS\Extensions\DOTween\DOTween46.xml" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
+     <None Include="Assets\SWS\Extensions\DOTween\DOTween43.xml" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
+     <None Include="Assets\SWS\Extensions\DOTween\readme.txt" />
+     <None Include="Assets\SWS\Changelog.txt" />
+     <None Include="Assets\SWS\Extensions\DOTween\DOTween50.xml" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <Reference Include="DOTween">
+ <HintPath>/Users/emile/Desktop/unity_projects/island_test_2/Assets/SWS/Extensions/DOTween/DOTween.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween43">
+ <HintPath>/Users/emile/Desktop/unity_projects/island_test_2/Assets/SWS/Extensions/DOTween/DOTween43.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween46">
+ <HintPath>/Users/emile/Desktop/unity_projects/island_test_2/Assets/SWS/Extensions/DOTween/DOTween46.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween50">
+ <HintPath>/Users/emile/Desktop/unity_projects/island_test_2/Assets/SWS/Extensions/DOTween/DOTween50.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
