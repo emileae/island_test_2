@@ -31,6 +31,9 @@ public class Player : MonoBehaviour {
 	public GameObject previousVerticalWaypoint = null;
 	public GameObject nextVerticalWaypoint = null;
 
+	// Sea
+	public bool inSea = false;
+
 	public int currentPlatform = 0;
 	public List<GameObject> waypoints = new List<GameObject>();
 	public int startingWaypointIndex = 0;
@@ -120,6 +123,12 @@ public class Player : MonoBehaviour {
 			if (previousVerticalWaypoint && inputV > 0) {
 				inputV = 0;
 			}
+		}
+
+		if (inSea) {
+			gravity += 50 * Time.deltaTime;
+		} else {
+			gravity = -30.0f;
 		}
 
 		
