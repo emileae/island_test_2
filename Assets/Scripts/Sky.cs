@@ -47,7 +47,7 @@ public class Sky : MonoBehaviour {
 		}
 		if (night) {
 			for (int i = 0; i < vertices.Length; i++) {
-				colors [i] = Color.Lerp (sunsetColors [i], Color.blue, 0.1f);
+				colors [i] = Color.Lerp (sunsetColors [i], Color.blue, 1.0f);
 			}
 			mesh.colors = colors;
 		}
