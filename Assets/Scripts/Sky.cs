@@ -88,8 +88,9 @@ public class Sky : MonoBehaviour {
 
 		// set initial colors
 		mesh.colors = afternoonColors;
- 
-        StartCoroutine(Sunset());
+
+		// keep it sunny daytime for now
+//        StartCoroutine(Sunset());
 	}
 	
 	// Update is called once per frame
