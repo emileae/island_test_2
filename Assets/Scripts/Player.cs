@@ -107,24 +107,24 @@ public class Player : MonoBehaviour {
 		}
 
 		// clearing inputs for only vertical or only horizontal movement
-		if (onStairs && inputH != 0) {
-			inputH = 0;
-		}
-
-		if (!onStairs && inputV != 0) {
-			if (!nextVerticalWaypoint && !previousVerticalWaypoint) {
-				inputV = 0;
-			}
-			// for cases of horizontal waypoint at top or bottom of stairs
-			// bottom of stairs
-			if (nextVerticalWaypoint && inputV < 0) {
-				inputV = 0;
-			}
-			// top of stairs
-			if (previousVerticalWaypoint && inputV > 0) {
-				inputV = 0;
-			}
-		}
+//		if (onStairs && inputH != 0) {
+//			inputH = 0;
+//		}
+//
+//		if (!onStairs && inputV != 0) {
+//			if (!nextVerticalWaypoint && !previousVerticalWaypoint) {
+//				inputV = 0;
+//			}
+//			// for cases of horizontal waypoint at top or bottom of stairs
+//			// bottom of stairs
+//			if (nextVerticalWaypoint && inputV < 0) {
+//				inputV = 0;
+//			}
+//			// top of stairs
+//			if (previousVerticalWaypoint && inputV > 0) {
+//				inputV = 0;
+//			}
+//		}
 
 		if (inSea) {
 			gravity += 50 * Time.deltaTime;
@@ -134,19 +134,19 @@ public class Player : MonoBehaviour {
 
 		
 		// Working-ish navigation between waypoints
-		if (inputH != 0) {
-			NavigateWaypoints ();
-			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
-		} else if (inputV != 0) {
-			NavigateVerticalWaypoints ();
-			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime);
-		} else {
-			controller.Move (Vector3.up * gravity * Time.deltaTime);
-		}
+//		if (inputH != 0) {
+//			NavigateWaypoints ();
+//			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
+//		} else if (inputV != 0) {
+//			NavigateVerticalWaypoints ();
+//			controller.Move (direction * inputV * speed + Vector3.up * gravity * Time.deltaTime);
+//		} else {
+//			controller.Move (Vector3.up * gravity * Time.deltaTime);
+//		}
 
 		// Standard WASD type control
-//		Vector3 moveVector = new Vector3(inputH*speed, 0, inputV*speed);
-//		controller.Move(moveVector + Vector3.up * gravity * Time.deltaTime);
+		Vector3 moveVector = new Vector3(inputH*speed, 0, inputV*speed);
+		controller.Move(moveVector + Vector3.up * gravity * Time.deltaTime);
 
 //		NavigateWaypoints ();
 
