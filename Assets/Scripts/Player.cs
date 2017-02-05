@@ -106,6 +106,7 @@ public class Player : MonoBehaviour {
 			movingUp = false;
 		}
 
+		// clearing inputs for only vertical or only horizontal movement
 		if (onStairs && inputH != 0) {
 			inputH = 0;
 		}
@@ -132,7 +133,7 @@ public class Player : MonoBehaviour {
 		}
 
 		
-
+		// Working-ish navigation between waypoints
 		if (inputH != 0) {
 			NavigateWaypoints ();
 			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
@@ -142,6 +143,10 @@ public class Player : MonoBehaviour {
 		} else {
 			controller.Move (Vector3.up * gravity * Time.deltaTime);
 		}
+
+		// Standard WASD type control
+//		Vector3 moveVector = new Vector3(inputH*speed, 0, inputV*speed);
+//		controller.Move(moveVector + Vector3.up * gravity * Time.deltaTime);
 
 //		NavigateWaypoints ();
 
