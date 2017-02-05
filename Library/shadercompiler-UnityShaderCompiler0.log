@@ -1,10 +1,2 @@
 Base path: /Applications/Unity/Unity.app/Contents
 Cmd: getPlatforms
-Cmd: preprocess
-  insize=986 outsize=1269 ok=1
-Cmd: preprocess
-  insize=2379 outsize=1449 ok=1
-Cmd: compileSnippet
-  error: 2 plat 15 at (36): incorrect number of arguments to numeric-type constructor\nCompiling Vertex program with DIRECTIONAL LIGHTMAP_OFF DYNAMICLIGHTMAP_OFF
-Platform defines: UNITY_ENABLE_REFLECTION_BUFFERS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING SHADER_API_DESKTOP
-  api=15 type=0 insize=8842 outsize=0 kw=DIRECTIONAL LIGHTMAP_OFF DYNAMICLIGHTMAP_OFF pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING SHADER_API_DESKTOP ok=0
