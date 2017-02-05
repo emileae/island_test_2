@@ -58,6 +58,7 @@
      <None Include="Assets\SWS\README.txt" />
      <None Include="Assets\SWS\Examples\Assets\Shaders\DiffuseReflectiveShader.shader" />
      <None Include="Assets\SWS\Extensions\DOTween\DOTween46.xml" />
+     <None Include="Assets\Shaders\TF2.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\SWS\Extensions\DOTween\DOTween43.xml" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />

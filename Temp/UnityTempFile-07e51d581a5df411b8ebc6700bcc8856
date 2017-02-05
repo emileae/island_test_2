@@ -105,6 +105,7 @@
 'Assets/SWS/Scripts/Movement/splineMove.cs'
 'Assets/Scripts/Blackboard.cs'
 'Assets/Scripts/Cloud.cs'
+'Assets/Scripts/NPC.cs'
 'Assets/Scripts/Player.cs'
 'Assets/Scripts/Sea.cs'
 'Assets/Scripts/Sky.cs'
