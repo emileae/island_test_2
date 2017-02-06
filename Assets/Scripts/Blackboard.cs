@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Blackboard : MonoBehaviour {
 
+	public List<GameObject> npcs = new List<GameObject> ();
+
 	public List<GameObject> waypoints0 = new List<GameObject> ();
 	public List<GameObject> waypoints1 = new List<GameObject> ();
 	public List<GameObject> waypoints2 = new List<GameObject> ();
