@@ -15,8 +15,20 @@ public class Building : MonoBehaviour {
 
 	void OnTriggerEnter (Collider col)
 	{
-		if (col.gameObject.tag == "Player") {
+		GameObject go = col.gameObject;
+		if (go.tag == "Player") {
 			Debug.Log("Player entered a building.... or tree");
+			Player playerScript = go.GetComponent<Player> ();
+			playerScript.nearBuilding = true;
+		}
+	}
+	void OnTriggerExit (Collider col)
+	{
+		GameObject go = col.gameObject;
+		if (go.tag == "Player") {
+			Debug.Log("Player exited a building.... or tree");
+			Player playerScript = go.GetComponent<Player> ();
+			playerScript.nearBuilding = false;
 		}
 	}
 

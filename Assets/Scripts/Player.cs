@@ -31,6 +31,10 @@ public class Player : MonoBehaviour {
 	public GameObject previousVerticalWaypoint = null;
 	public GameObject nextVerticalWaypoint = null;
 
+	// Building
+	public bool nearBuilding = false;
+	private bool paying = false;
+
 	// Sea
 	public bool inSea = false;
 
@@ -78,6 +82,7 @@ public class Player : MonoBehaviour {
 
 		float inputH = Input.GetAxisRaw ("Horizontal");
 		float inputV = Input.GetAxisRaw ("Vertical");
+		bool payInput = Input.GetButton ("Fire3");
 
 		if (inputH > 0) {
 			movingLeft = false;
@@ -156,6 +161,19 @@ public class Player : MonoBehaviour {
 //			controller.Move (direction * inputH * speed + Vector3.up * gravity * Time.deltaTime);
 //		}
 
+		// Paying
+		if (nearBuilding && payInput && !paying){
+			paying = true;
+			Debug.Log ("Pay a building");
+			StartCoroutine (Pay ());
+		}
+
+	}
+
+	IEnumerator Pay(){
+		yield return new WaitForSeconds (0.3f);
+		Debug.Log ("PAYYYY");
+		paying = false;
 	}
 
 	void NavigateWaypoints (){
