@@ -62,6 +62,7 @@
      <Compile Include="Assets\SWS\Scripts\Movement\navMove.cs" />
      <Compile Include="Assets\SWS\Scripts\Movement\splineMove.cs" />
      <Compile Include="Assets\Scripts\Blackboard.cs" />
+     <Compile Include="Assets\Scripts\Building.cs" />
      <Compile Include="Assets\Scripts\CameraControl.cs" />
      <Compile Include="Assets\Scripts\Cloud.cs" />
      <Compile Include="Assets\Scripts\NPC.cs" />

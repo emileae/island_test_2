@@ -36,7 +36,7 @@ public class CameraControl : MonoBehaviour {
         Move ();
 
         // Change the size of the camera based.
-        Zoom ();
+//        Zoom ();
     }
 
 

@@ -104,6 +104,7 @@
 'Assets/SWS/Scripts/Movement/navMove.cs'
 'Assets/SWS/Scripts/Movement/splineMove.cs'
 'Assets/Scripts/Blackboard.cs'
+'Assets/Scripts/Building.cs'
 'Assets/Scripts/CameraControl.cs'
 'Assets/Scripts/Cloud.cs'
 'Assets/Scripts/NPC.cs'
