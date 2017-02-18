@@ -14,5 +14,6 @@ public class NMCamera : MonoBehaviour {
 	void Update () {
 		transform.LookAt(player);
 		transform.Translate(Vector3.right * Time.deltaTime);
+//		transform.position = new Vector3 (player.position.x, transform.position.y, transform.position.z);
 	}
 }

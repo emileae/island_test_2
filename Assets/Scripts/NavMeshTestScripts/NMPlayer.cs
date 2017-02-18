@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 
 public class NMPlayer : MonoBehaviour {
 
@@ -31,15 +32,16 @@ public class NMPlayer : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 
 		float inputH = Input.GetAxisRaw ("Horizontal");
 		float inputV = Input.GetAxisRaw ("Vertical");
 
 		if (inputH != 0 && !onSteps) {
 			// cancel steps and keep moving along this platform
-			Debug.Log("Cancel going to the new platform and keep moving along the current platform");
-			if (goingToNewPlatform){
+			Debug.Log ("Cancel going to the new platform and keep moving along the current platform");
+			if (goingToNewPlatform) {
 				if (goingUp) {
 					currentPlatform -= 1;
 				} else if (goingDown) {
@@ -94,6 +96,25 @@ public class NMPlayer : MonoBehaviour {
 			}
 		}
 
+		// check normal
+		if (Input.GetButton ("Fire3")) {
+			CheckSlope();
+		}
+
+	}
+
+
+	// this will check if player is moving between platforms
+	// can assume that platforms will be flat
+	// stairs between platforms may have flat areas as well, may be slopws or stairs
+	void CheckSlope ()
+	{
+		NavMeshHit hit;
+        
+		// Check all areas one length unit ahead.
+		if (!agent.SamplePathPosition (NavMesh.AllAreas, 0.1F, out hit)) {
+			Debug.Log ("position: " + hit.position.y);
+		}
 	}
 
 	// TODO
