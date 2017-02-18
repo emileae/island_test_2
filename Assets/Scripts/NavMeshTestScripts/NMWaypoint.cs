@@ -4,7 +4,6 @@ using System.Collections;
 public class NMWaypoint : MonoBehaviour {
 
 	public int waypointPlatform = 0;
-	public bool stepGate = false;
 
 	// Use this for initialization
 	void Start () {
@@ -19,17 +18,17 @@ public class NMWaypoint : MonoBehaviour {
 	void OnTriggerEnter(Collider col){
 		GameObject go = col.gameObject;
 		if (go.tag == "Player") {
-			Debug.Log ("Player triggered waypoint");
+//			Debug.Log ("Player triggered waypoint");
 			go.GetComponent<NMPlayer>().HitWaypoint (gameObject);
 		}
 	}
 
-	void OnTriggerExit(Collider col){
-		GameObject go = col.gameObject;
-		if (go.tag == "Player") {
-			Debug.Log ("Player triggered waypoint");
-			go.GetComponent<NMPlayer>().LeftWaypoint (gameObject);
-		}
-	}
+//	void OnTriggerExit(Collider col){
+//		GameObject go = col.gameObject;
+//		if (go.tag == "Player") {
+//			Debug.Log ("Player triggered waypoint");
+//			go.GetComponent<NMPlayer>().LeftWaypoint (gameObject);
+//		}
+//	}
 
 }
