@@ -85,6 +85,8 @@ public class NMPlayer : MonoBehaviour {
 			if (inputV != 0) {
 				Debug.Log ("V");
 
+				// double back had some kind of fix where you had to reset the current platform
+
 				if (inputV > 0) {
 
 					if (onSteps) {
@@ -96,6 +98,7 @@ public class NMPlayer : MonoBehaviour {
 						} else if (goingDown) {
 							Debug.Log ("pressing up but should be going down... reconsider");
 							destinationPlatform = currentPlatform;
+							currentPlatform = destinationPlatform - 1;
 							goingUp = true;
 							goingDown = false;
 						}
@@ -129,6 +132,7 @@ public class NMPlayer : MonoBehaviour {
 						} else if (goingUp) {
 							Debug.Log ("pressing down but should be going up... reconsider");
 							destinationPlatform = currentPlatform;
+							currentPlatform = destinationPlatform + 1;
 							goingUp = false;
 							goingDown = true;
 						}
