@@ -5,7 +5,7 @@ public class NMNPC : MonoBehaviour {
 
 	NavMeshAgent agent;
 	public bool goToTarget = false;
-	public GameObject target;
+	public Vector3 targetPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +15,12 @@ public class NMNPC : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (goToTarget) {
-			agent.SetDestination(target.transform.position);
+			agent.SetDestination(targetPosition);
 		}
+	}
+
+	public void GoToDestination(Vector3 destination){
+		targetPosition = destination;
+		goToTarget = true;
 	}
 }

@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\CameraControl.cs" />
      <Compile Include="Assets\Scripts\Cloud.cs" />
      <Compile Include="Assets\Scripts\NPC.cs" />
+     <Compile Include="Assets\Scripts\NavMeshTestScripts\NMBlackboard.cs" />
      <Compile Include="Assets\Scripts\NavMeshTestScripts\NMCamera.cs" />
      <Compile Include="Assets\Scripts\NavMeshTestScripts\NMNPC.cs" />
      <Compile Include="Assets\Scripts\NavMeshTestScripts\NMPlayer.cs" />

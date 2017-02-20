@@ -5,6 +5,8 @@ using UnityEditor.Rendering;
 
 public class NMPlayer : MonoBehaviour {
 
+	private NMBlackboard blackboard;
+
 	NavMeshAgent agent;
 
 	public List<GameObject> waypoints = new List<GameObject>();
@@ -29,23 +31,36 @@ public class NMPlayer : MonoBehaviour {
 	public int nextWaypoint = 1;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		agent = GetComponent<NavMeshAgent> ();
 
 		platformWaypoints.Add (waypoints);
 		platformWaypoints.Add (waypoints1);
+
+		if (blackboard == null) {
+			blackboard = GameObject.Find("Blackboard").GetComponent<NMBlackboard>();
+		}
+
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		/// Calling NPCs
+		bool inputCall = Input.GetButton ("Fire3");
+		if (inputCall) {
+			blackboard.CallNPCs(transform.position);
+		}
 
+
+
+		/// Movements
 		float inputH = Input.GetAxisRaw ("Horizontal");
 		float inputV = Input.GetAxisRaw ("Vertical");
 
 		// both vertical on horizontal movement
 		if (inputV != 0 && inputH != 0) {
-			Debug.Log ("V && H");
 			if (onSteps) {
 				// on steps prioritize vertical movement
 				inputH = 0;
@@ -59,13 +74,10 @@ public class NMPlayer : MonoBehaviour {
 
 			// horizontal input
 			if (inputH != 0) {
-				Debug.Log ("H");
 				if (!onSteps) {
 					if (inputH > 0) {
-						Debug.Log ("aaaa");
 						agent.SetDestination (platformWaypoints [currentPlatform] [nextWaypoint].transform.position);
 					} else if (inputH < 0) {
-						Debug.Log ("bbbb");
 						agent.SetDestination (platformWaypoints [currentPlatform] [previousWaypoint].transform.position);
 					}
 					// if not on steps and press horizontal button then reset step movement
@@ -85,13 +97,11 @@ public class NMPlayer : MonoBehaviour {
 
 			// vertical input
 			if (inputV != 0) {
-				Debug.Log ("V");
 
 				if (inputV > 0) {
 
 					if (onSteps) {
 						if (goingUp) {
-							Debug.Log ("pressing up and so should go up");
 							goingUp = true;
 							goingDown = false;
 						} else if (goingDown) {
@@ -106,12 +116,7 @@ public class NMPlayer : MonoBehaviour {
 						goingDown = false;
 					}
 
-					Debug.Log ("destinationPlatform" + (destinationPlatform));
-					Debug.Log ("platformWaypoints.Count - 1" + (platformWaypoints.Count - 1));
-					Debug.Log ("destinationPlatform <= (platformWaypoints.Count - 1)" + (destinationPlatform <= (platformWaypoints.Count - 1)));
-
 					if (destinationPlatform <= (platformWaypoints.Count - 1)) {
-						Debug.Log ("cccc");
 						agent.SetDestination (platformWaypoints [destinationPlatform] [0].transform.position);
 					}
 					else {
@@ -142,7 +147,6 @@ public class NMPlayer : MonoBehaviour {
 					}
 
 					if (destinationPlatform >= 0) {
-						Debug.Log ("dddd");
 						agent.SetDestination (platformWaypoints [destinationPlatform] [0].transform.position);
 					} else {
 						inputV = 0;
