@@ -62,8 +62,10 @@ public class NMPlayer : MonoBehaviour {
 				Debug.Log ("H");
 				if (!onSteps) {
 					if (inputH > 0) {
+						Debug.Log ("aaaa");
 						agent.SetDestination (platformWaypoints [currentPlatform] [nextWaypoint].transform.position);
 					} else if (inputH < 0) {
+						Debug.Log ("bbbb");
 						agent.SetDestination (platformWaypoints [currentPlatform] [previousWaypoint].transform.position);
 					}
 					// if not on steps and press horizontal button then reset step movement
@@ -85,8 +87,6 @@ public class NMPlayer : MonoBehaviour {
 			if (inputV != 0) {
 				Debug.Log ("V");
 
-				// double back had some kind of fix where you had to reset the current platform
-
 				if (inputV > 0) {
 
 					if (onSteps) {
@@ -94,9 +94,7 @@ public class NMPlayer : MonoBehaviour {
 							Debug.Log ("pressing up and so should go up");
 							goingUp = true;
 							goingDown = false;
-//						destinationPlatform = currentPlatform + 1;
 						} else if (goingDown) {
-							Debug.Log ("pressing up but should be going down... reconsider");
 							destinationPlatform = currentPlatform;
 							currentPlatform = destinationPlatform - 1;
 							goingUp = true;
@@ -108,42 +106,46 @@ public class NMPlayer : MonoBehaviour {
 						goingDown = false;
 					}
 
-
-//					goingUp = true;
-//					goingDown = false;
-//					goingToNewPlatform = true;
+					Debug.Log ("destinationPlatform" + (destinationPlatform));
+					Debug.Log ("platformWaypoints.Count - 1" + (platformWaypoints.Count - 1));
+					Debug.Log ("destinationPlatform <= (platformWaypoints.Count - 1)" + (destinationPlatform <= (platformWaypoints.Count - 1)));
 
 					if (destinationPlatform <= (platformWaypoints.Count - 1)) {
+						Debug.Log ("cccc");
 						agent.SetDestination (platformWaypoints [destinationPlatform] [0].transform.position);
+					}
+					else {
+						inputV = 0;
 					}
 
 				} else if (inputV < 0) {
-//					destinationPlatform = currentPlatform - 1;
-//					goingUp = false;
-//					goingDown = true;
-//					goingToNewPlatform = true;
 
 					if (onSteps) {
 						if (goingDown) {
-							Debug.Log ("pressing down and so should go down");
+//							Debug.Log ("pressing down and so should go down");
 							goingUp = false;
 							goingDown = true;
 //						destinationPlatform = currentPlatform - 1;
 						} else if (goingUp) {
-							Debug.Log ("pressing down but should be going up... reconsider");
+//							Debug.Log ("pressing down but should be going up... reconsider");
 							destinationPlatform = currentPlatform;
 							currentPlatform = destinationPlatform + 1;
 							goingUp = false;
 							goingDown = true;
 						}
 					} else {
+//						if (currentPlatform > 0) {
 						destinationPlatform = currentPlatform - 1;
+//						}
 						goingUp = false;
 						goingDown = true;
 					}
 
 					if (destinationPlatform >= 0) {
+						Debug.Log ("dddd");
 						agent.SetDestination (platformWaypoints [destinationPlatform] [0].transform.position);
+					} else {
+						inputV = 0;
 					}
 
 				} else {
@@ -151,89 +153,6 @@ public class NMPlayer : MonoBehaviour {
 					goingDown = false;
 				}
 
-//				if (inputV > 0) {
-//					if (currentPlatform < (platformWaypoints.Count - 1)) {
-//
-//						Debug.Log ("Can move up");
-//
-//						if (!goingToNewPlatform) {
-//							currentPlatform += 1;
-//							goingUp = true;
-//							goingDown = false;
-//							agent.SetDestination (platformWaypoints [currentPlatform] [0].transform.position);
-//							goingToNewPlatform = true;
-//						}
-//
-////						if (!goingToNewPlatform) {
-////							currentPlatform += 1;
-////							goingUp = true;
-////							goingDown = false;
-////						} else if (goingToNewPlatform) {
-////							if (goingDown) {
-////								currentPlatform += 1;
-////								goingUp = true;
-////								goingDown = false;
-////							} else if (goingUp) {
-////								Debug.Log ("moving in correct vertical location... up");
-////							}
-////						}
-////
-////						// go to waypoint
-////						agent.SetDestination (platformWaypoints [currentPlatform] [0].transform.position);
-////						goingToNewPlatform = true;
-////
-////						// reset current platform
-////						if (currentPlatform > (platformWaypoints.Count - 1)) {
-////							currentPlatform = platformWaypoints.Count - 1;
-////							goingToNewPlatform = false;
-////							agent.ResetPath ();// no movement
-////						}
-//
-//					}
-//
-//				} else if (inputV < 0) {
-//					if (currentPlatform > 0) {
-//
-//						Debug.Log("Can move down");
-//
-//						if (!goingToNewPlatform) {
-//							currentPlatform -= 1;
-//							goingUp = false;
-//							goingDown = true;
-//							agent.SetDestination (platformWaypoints [currentPlatform] [0].transform.position);
-//							goingToNewPlatform = true;
-//						}
-//
-////						if (!goingToNewPlatform) {
-////							Debug.Log ("platform -= 1...a");
-////							currentPlatform -= 1;
-////							goingUp = false;
-////							goingDown = true;
-////						} else if (goingToNewPlatform) {
-////							if (goingUp) {
-////								Debug.Log ("platform -= 1...b");
-////								currentPlatform -= 1;
-////								goingUp = false;
-////								goingDown = true;
-////							} else if (goingDown) {
-////								Debug.Log ("moving in correct vertical location... down");
-////							}
-////						}
-////
-////						// go to waypoint
-////						agent.SetDestination (platformWaypoints [currentPlatform] [0].transform.position);
-////						goingToNewPlatform = true;
-////
-////						// reset current platform
-////						if (currentPlatform < 0) {
-////							currentPlatform = 0;
-////							goingToNewPlatform = false;
-////							agent.ResetPath ();// no movement
-////						}
-//
-//					}
-//
-//				}
 			}
 
 		}
@@ -242,66 +161,6 @@ public class NMPlayer : MonoBehaviour {
 		if (inputH == 0 && inputV == 0) {
 			agent.ResetPath ();// no movement
 		}
-
-//		if (!onSteps) {
-//			if (inputH != 0) {
-//				// cancel steps and keep moving along this platform
-//				Debug.Log ("Cancel going to the new platform and keep moving along the current platform");
-//				if (goingToNewPlatform) {
-//					if (goingUp) {
-//						currentPlatform -= 1;
-//					} else if (goingDown) {
-//						currentPlatform += 1;
-//					}
-//				}
-//				goingToNewPlatform = false;
-//			}
-//		}
-//
-//		if (!goingToNewPlatform) {
-//			if (inputH > 0) {
-//				agent.SetDestination (platformWaypoints [currentPlatform] [nextWaypoint].transform.position);
-//			} else if (inputH < 0) {
-//				agent.SetDestination (platformWaypoints [currentPlatform] [previousWaypoint].transform.position);
-//			} else {
-//				agent.ResetPath ();
-//			}
-//
-//			if (inputV > 0) {
-//				// if there are more platforms
-//				if (platformWaypoints.Count > currentPlatform + 1) {
-//					currentPlatform += 1;
-//					goingUp = true;
-//					goingDown = false;
-//					goingToNewPlatform = true;
-//				}
-//			} else if (inputV < 0) {
-//				// if thee are move platforms
-//				if (currentPlatform - 1 >= 0) {
-//					currentPlatform -= 1;
-//					goingUp = false;
-//					goingDown = true;
-//					goingToNewPlatform = true;
-//				}
-//			}
-//
-//		} else if (goingToNewPlatform) {
-//			if (inputV > 0) {
-//				if (goingUp) {
-//					agent.SetDestination (platformWaypoints [currentPlatform] [0].transform.position);
-//				} else if (goingDown) {
-//					agent.SetDestination (platformWaypoints [currentPlatform + 1] [0].transform.position);
-//				}
-//			} else if (inputV < 0) {
-//				if (goingUp) {
-//					agent.SetDestination (platformWaypoints [currentPlatform - 1] [0].transform.position);
-//				} else if (goingDown) {
-//					agent.SetDestination (platformWaypoints [currentPlatform] [0].transform.position);
-//				}
-//			} else {
-//				agent.ResetPath ();
-//			}
-//		}
 
 
 	}
