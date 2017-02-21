@@ -5,6 +5,8 @@ public class NMWaypoint : MonoBehaviour {
 
 	public int waypointPlatform = 0;
 
+	public int orderOnPlatform = 0;
+
 	// Use this for initialization
 	void Start () {
 	

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
+using System.Net.Configuration;
+using UnityEditorInternal.VersionControl;
 
 public class NMPlayer : MonoBehaviour {
 
@@ -9,8 +11,9 @@ public class NMPlayer : MonoBehaviour {
 
 	NavMeshAgent agent;
 
-	public List<GameObject> waypoints = new List<GameObject>();
-	public List<GameObject> waypoints1 = new List<GameObject>();
+//	public List<GameObject> waypoints = new List<GameObject>();
+//	public List<GameObject> waypoints1 = new List<GameObject>();
+	public int numPlatforms = 3;
 	public List<List<GameObject>> platformWaypoints = new List<List<GameObject>>();
 
 	// platform heights will be set either procedurally or manually, 
@@ -35,8 +38,17 @@ public class NMPlayer : MonoBehaviour {
 	{
 		agent = GetComponent<NavMeshAgent> ();
 
-		platformWaypoints.Add (waypoints);
-		platformWaypoints.Add (waypoints1);
+		for (int i = 0; i < numPlatforms; i++) {
+			platformWaypoints.Add (new List<GameObject> ());
+		}
+		GameObject[] waypoints = GameObject.FindGameObjectsWithTag ("Waypoint");
+
+		Debug.Log ("waypoints.Length" + waypoints.Length);
+
+		for (int i = 0; i < waypoints.Length; i++) {
+			NMWaypoint wpScript = waypoints[i].GetComponent<NMWaypoint>();
+			platformWaypoints[wpScript.waypointPlatform].Add(waypoints[i]);
+		}
 
 		if (blackboard == null) {
 			blackboard = GameObject.Find("Blackboard").GetComponent<NMBlackboard>();

@@ -2,10 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/NavMeshTestScripts/NMPlayer.cs">
     <Files>
+      <File FileName="Assets/Scripts/NavMeshTestScripts/NMPlayer.cs" Line="50" Column="19" />
       <File FileName="Assets/Scripts/NavMeshTestScripts/NMCamera.cs" Line="17" Column="5" />
-      <File FileName="Assets/Scripts/NavMeshTestScripts/NMPlayer.cs" Line="124" Column="34" />
-      <File FileName="Assets/Scripts/NavMeshTestScripts/NMSteps.cs" Line="25" Column="3" />
-      <File FileName="Assets/Scripts/NavMeshTestScripts/NMWaypoint.cs" Line="21" Column="6" />
+      <File FileName="Assets/Scripts/NavMeshTestScripts/NMSteps.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/NavMeshTestScripts/NMWaypoint.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/NavMeshTestScripts/NMBlackboard.cs" Line="26" Column="22" />
+      <File FileName="Assets/Scripts/NavMeshTestScripts/NMNPC.cs" Line="24" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
