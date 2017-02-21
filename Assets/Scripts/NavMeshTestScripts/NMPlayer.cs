@@ -231,5 +231,10 @@ public class NMPlayer : MonoBehaviour {
 		onSteps = false;
 		goingToNewPlatform = false;
 		currentPlatform = destinationPlatform;
+
+		// reset platform horizontal waypoints
+		currentWaypointIndex = 0;
+		previousWaypoint = 0;
+		nextWaypoint = 0;
 	}
 }

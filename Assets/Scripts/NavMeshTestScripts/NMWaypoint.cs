@@ -7,9 +7,13 @@ public class NMWaypoint : MonoBehaviour {
 
 	public int orderOnPlatform = 0;
 
+	void OnDrawGizmos() {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 1);
+    }
+
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame
