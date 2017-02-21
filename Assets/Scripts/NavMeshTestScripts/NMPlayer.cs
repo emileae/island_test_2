@@ -11,8 +11,9 @@ public class NMPlayer : MonoBehaviour {
 
 	NavMeshAgent agent;
 
-//	public List<GameObject> waypoints = new List<GameObject>();
-//	public List<GameObject> waypoints1 = new List<GameObject>();
+	public List<GameObject> waypoints = new List<GameObject>();
+	public List<GameObject> waypoints1 = new List<GameObject>();
+	public List<GameObject> waypoints2 = new List<GameObject>();
 	public int numPlatforms = 3;
 	public List<List<GameObject>> platformWaypoints = new List<List<GameObject>>();
 
@@ -38,17 +39,21 @@ public class NMPlayer : MonoBehaviour {
 	{
 		agent = GetComponent<NavMeshAgent> ();
 
-		for (int i = 0; i < numPlatforms; i++) {
-			platformWaypoints.Add (new List<GameObject> ());
-		}
-		GameObject[] waypoints = GameObject.FindGameObjectsWithTag ("Waypoint");
+		platformWaypoints.Add(waypoints);
+		platformWaypoints.Add(waypoints1);
+		platformWaypoints.Add(waypoints2);
 
-		Debug.Log ("waypoints.Length" + waypoints.Length);
+//		for (int i = 0; i < numPlatforms; i++) {
+//			platformWaypoints.Add (new List<GameObject> ());
+//		}
+//		GameObject[] waypoints = GameObject.FindGameObjectsWithTag ("Waypoint");
 
-		for (int i = 0; i < waypoints.Length; i++) {
-			NMWaypoint wpScript = waypoints[i].GetComponent<NMWaypoint>();
-			platformWaypoints[wpScript.waypointPlatform].Add(waypoints[i]);
-		}
+//		Debug.Log ("waypoints.Length" + waypoints.Length);
+
+//		for (int i = 0; i < waypoints.Length; i++) {
+//			NMWaypoint wpScript = waypoints[i].GetComponent<NMWaypoint>();
+//			platformWaypoints[wpScript.waypointPlatform].Add(waypoints[i]);
+//		}
 
 		if (blackboard == null) {
 			blackboard = GameObject.Find("Blackboard").GetComponent<NMBlackboard>();
@@ -62,7 +67,7 @@ public class NMPlayer : MonoBehaviour {
 		/// Calling NPCs
 		bool inputCall = Input.GetButton ("Fire3");
 		if (inputCall) {
-			blackboard.CallNPCs(transform.position);
+			blackboard.CallNPCs (transform.position);
 		}
 
 
@@ -88,6 +93,7 @@ public class NMPlayer : MonoBehaviour {
 			if (inputH != 0) {
 				if (!onSteps) {
 					if (inputH > 0) {
+						Debug.Log ("nextWaypoint: " + nextWaypoint);
 						agent.SetDestination (platformWaypoints [currentPlatform] [nextWaypoint].transform.position);
 					} else if (inputH < 0) {
 						agent.SetDestination (platformWaypoints [currentPlatform] [previousWaypoint].transform.position);
@@ -123,6 +129,7 @@ public class NMPlayer : MonoBehaviour {
 							goingDown = false;
 						}
 					} else {
+						Debug.Log ("Increased destination platform...");
 						destinationPlatform = currentPlatform + 1;
 						goingUp = true;
 						goingDown = false;
@@ -186,21 +193,15 @@ public class NMPlayer : MonoBehaviour {
 	// edge case where player is on the steps and then presses horizontal keys?
 	// maybe try to use the onSteps bool to control when horizontal keys have an effect?
 
-	public void HitWaypoint(GameObject wp){
+	public void HitWaypoint (GameObject wp)
+	{
 		int currentWaypointIndex = platformWaypoints[currentPlatform].IndexOf (wp);
+
+		Debug.Log("currentWaypointIndex: " + currentWaypointIndex);
 
 		NMWaypoint wpScript = wp.GetComponent<NMWaypoint> ();
 
-//		if (wpScript.stepGate) {
-//			onSteps = true;
-//		}
 		if (wpScript.waypointPlatform == currentPlatform) {
-			// hit a waypoint so must be on a platform
-//			if (goingToNewPlatform) {
-//				goingToNewPlatform = false;
-//				goingUp = false;
-//				goingDown = false;
-//			}
 
 			if (currentWaypointIndex > 0) {
 				previousWaypoint = currentWaypointIndex - 1;
@@ -211,6 +212,7 @@ public class NMPlayer : MonoBehaviour {
 		} else {
 			Debug.Log ("Keep going to the upper platform..... maybe if Player presses horizontal button they stay on the platform???");
 		}
+
 	}
 
 //	public void LeftWaypoint(GameObject wp){
