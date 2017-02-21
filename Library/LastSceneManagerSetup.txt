@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/navagent_controller_Test.unity
+- path: Assets/Scenes/Modular_Island.unity
   isLoaded: 1
   isActive: 1
