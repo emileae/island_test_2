@@ -195,9 +195,9 @@ public class NMPlayer : MonoBehaviour {
 
 	public void HitWaypoint (GameObject wp)
 	{
-		int currentWaypointIndex = platformWaypoints[currentPlatform].IndexOf (wp);
+		int currentWaypointIndex = platformWaypoints [currentPlatform].IndexOf (wp);
 
-		Debug.Log("currentWaypointIndex: " + currentWaypointIndex);
+		Debug.Log ("currentWaypointIndex: " + currentWaypointIndex);
 
 		NMWaypoint wpScript = wp.GetComponent<NMWaypoint> ();
 
@@ -205,9 +205,13 @@ public class NMPlayer : MonoBehaviour {
 
 			if (currentWaypointIndex > 0) {
 				previousWaypoint = currentWaypointIndex - 1;
+			} else {
+				previousWaypoint = platformWaypoints [currentPlatform].Count - 1;
 			}
 			if (currentWaypointIndex < platformWaypoints [currentPlatform].Count - 1) {
 				nextWaypoint = currentWaypointIndex + 1;
+			} else {
+				nextWaypoint = 0;
 			}
 		} else {
 			Debug.Log ("Keep going to the upper platform..... maybe if Player presses horizontal button they stay on the platform???");

@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Specialized;
 
 public class NMCamera : MonoBehaviour {
 
 	public Transform player;
 	public Transform island;
-	public float distance = -1000.0f;
+	public float distance = 100.0f;
 	public bool orbitY = false;
-	public float yHeight = 40;
+	public float yHeight = 20;
+
+	// smoothing
+	public float smoothTime = 0.3F;
+    private Vector3 velocity = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +20,7 @@ public class NMCamera : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 //		transform.LookAt (player);
 ////		transform.Translate(Vector3.right * Time.deltaTime);
@@ -26,9 +31,11 @@ public class NMCamera : MonoBehaviour {
 //		}
 
 		transform.LookAt (player);
-		transform.position = (island.position - player.position).normalized * distance;
+		Vector3 slopeVector = (player.position - island.position).normalized * distance;
 
-		transform.position = new Vector3 (transform.position.x, player.position.y, transform.position.z);
+		Vector3 targetPosition = new Vector3 (slopeVector.x, player.position.y + yHeight, slopeVector.z);
+
+		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
 
 
 	}
