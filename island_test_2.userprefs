@@ -1,13 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/NavMeshTestScripts/NMCamera.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Shaders/MonumentValley.shader">
     <Files>
-      <File FileName="Assets/Scripts/NavMeshTestScripts/NMCamera.cs" Line="38" Column="24" />
-      <File FileName="Assets/Scripts/NavMeshTestScripts/NMPlayer.cs" Line="238" Column="20" />
+      <File FileName="Assets/Scripts/NavMeshTestScripts/NMCamera.cs" Line="36" Column="85" />
+      <File FileName="Assets/Scripts/NavMeshTestScripts/NMPlayer.cs" Line="214" Column="22" />
       <File FileName="Assets/Scripts/NavMeshTestScripts/NMSteps.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/NavMeshTestScripts/NMWaypoint.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/NavMeshTestScripts/NMBlackboard.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/NavMeshTestScripts/NMNPC.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/MonumentValley.shader" Line="1" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

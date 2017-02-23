@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using System.Net.Configuration;
 using UnityEditorInternal.VersionControl;
+using UnityEngine.EventSystems;
 
 public class NMPlayer : MonoBehaviour {
 
@@ -60,8 +61,25 @@ public class NMPlayer : MonoBehaviour {
 		}
 
 	}
+
+//	void Update(){
+//		/// Movements
+//		float inputH = Input.GetAxisRaw ("Horizontal");
+//		float inputV = Input.GetAxisRaw ("Vertical");
+//
+//		Vector3 direction = new Vector3(inputH, 0, inputV) * Time.deltaTime * 3;
+//
+//		agent.Move(direction);
+//
+//		//		/// Calling NPCs
+//		bool inputCall = Input.GetButton ("Fire3");
+//		if (inputCall) {
+//			blackboard.CallNPCs (transform.position);
+//		}
+//
+//	}
 	
-	// Update is called once per frame
+	// Navmesh OriginalController
 	void Update ()
 	{
 		/// Calling NPCs
